@@ -10,7 +10,7 @@ expo start --android
 yarn android
 ```
 
-run the development server on iso:
+run the development server on ios:
 
 ```bash
 expo start --ios

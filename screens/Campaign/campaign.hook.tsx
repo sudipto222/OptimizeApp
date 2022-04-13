@@ -96,11 +96,11 @@ const CampaignHook = ({ navigation }: ICampaignHook) => {
       )
         .then((response) => response.text())
         .then((result: any) => {
-          setLoading(false);
           dispatch(setId({ id: result?.data?.id }));
+
           setCampaignNameValue("");
           setWebsiteValue("");
-          setImage("");
+          setImage(null);
 
           setLoading(false);
 
