@@ -20,16 +20,10 @@ import {
 interface IMediaCard {
   image: string | null;
   setImage: React.Dispatch<React.SetStateAction<string | null>>;
-  setImageData: React.Dispatch<React.SetStateAction<any>>;
   inputError: string | null;
 }
 
-const MediaCard: FC<IMediaCard> = ({
-  image,
-  setImage,
-  setImageData,
-  inputError,
-}) => {
+const MediaCard: FC<IMediaCard> = ({ image, setImage, inputError }) => {
   // pick image
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -40,7 +34,6 @@ const MediaCard: FC<IMediaCard> = ({
     });
 
     if (!result?.cancelled) {
-      setImageData(result);
       setImage(result?.uri);
     }
   };

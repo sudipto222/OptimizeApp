@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Provider } from "react-redux";
 import { ToastProvider } from "react-native-toast-notifications";
+import { LogBox } from "react-native";
 
 import { theme } from "./theme/theme";
 import { store } from "./redux/store";
@@ -33,6 +34,10 @@ const queryClientConfig: any = {
 const queryClient = new QueryClient(queryClientConfig);
 
 export default function App() {
+  LogBox.ignoreLogs([
+    `Warning: Each child in a list should have a unique "key" prop.`,
+  ]);
+
   const [loaded] = useFonts({
     MontserratBold: require("./assets/fonts/Montserrat-Bold.ttf"),
     MontserratRegular: require("./assets/fonts/Montserrat-Regular.ttf"),

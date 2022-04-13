@@ -82,7 +82,7 @@ const Navbar: FC<INavbar> = ({ activeScreen, adName, navigation }) => {
           return (
             <>
               {activeScreen === i + 1 ? (
-                <ProgressItemSection key={item.id}>
+                <ProgressItemSection key={`${item.id}-${i}`}>
                   <ProgressItem>
                     <ProgressItemText>{i + 1}</ProgressItemText>
                   </ProgressItem>
@@ -93,7 +93,7 @@ const Navbar: FC<INavbar> = ({ activeScreen, adName, navigation }) => {
                   </ProgressItemDetails>
                 </ProgressItemSection>
               ) : (
-                <ProgressItemDisableSection key={item.id}>
+                <ProgressItemDisableSection key={`${item.id}-${i}`}>
                   <ProgressDisableItem>
                     <ProgressItemDisableText>{i + 1}</ProgressItemDisableText>
                   </ProgressDisableItem>

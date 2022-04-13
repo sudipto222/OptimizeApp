@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import AntDesignIcon from "react-native-vector-icons/AntDesign";
 import * as Clipboard from "expo-clipboard";
+import { useToast } from "react-native-toast-notifications";
 
 import {
   Section,
@@ -17,8 +18,17 @@ interface ICopyText {
 }
 
 const CopyText: FC<ICopyText> = ({ copyText }) => {
+  const toast = useToast();
+
   const copyToClipboard = async () => {
     Clipboard.setString(`${copyText}`);
+
+    toast.show("copy url successfully", {
+      type: "success",
+      placement: "bottom",
+      duration: 4000,
+      animationType: "slide-in",
+    });
   };
 
   return (

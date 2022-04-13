@@ -50,34 +50,38 @@ const CreateCampaignHook = ({ navigation }: ICreateCampaignHook) => {
     if (mutation?.data?.data) {
       dispatch(setId({ id: mutation?.data?.data?.data?.id }));
 
+      setAdNameValue("");
+      setObjectiveValue("");
+
       return navigation?.navigate("CampaignDetailsScreen");
     }
   }, [mutation?.data]);
 
   // form submit
   const submitHandel = () => {
-    let isError = false;
+    let isAdNameError = false;
+    let isObjectiveError = false;
 
     // ad name validation
     if (adNameValue === "") {
-      isError = true;
+      isAdNameError = true;
       setAdNameError("Ad name can't be blank");
     } else {
-      isError = false;
+      isAdNameError = false;
       setAdNameError(null);
     }
 
     // objective validation
     if (objectiveValue === "") {
-      isError = true;
+      isObjectiveError = true;
       setObjectiveError("Objective can't be blank");
     } else {
-      isError = false;
+      isObjectiveError = false;
       setObjectiveError(null);
     }
 
     // post data
-    if (!isError) {
+    if (!isAdNameError && !isObjectiveError) {
       return mutation?.mutate({
         name: adNameValue,
         objective: objectiveValue,

@@ -32,7 +32,6 @@ const CampaignScreen: FC<ICampaignScreen> = ({ navigation }) => {
     websiteError,
     submitHandel,
     imageError,
-    setImageData,
     loading,
   } = CampaignHook({ navigation });
 
@@ -68,7 +67,6 @@ const CampaignScreen: FC<ICampaignScreen> = ({ navigation }) => {
           <MediaCard
             image={image}
             setImage={setImage}
-            setImageData={setImageData}
             inputError={imageError}
           />
         </CardSection>

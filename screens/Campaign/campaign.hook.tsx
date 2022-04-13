@@ -14,52 +14,54 @@ const CampaignHook = ({ navigation }: ICampaignHook) => {
   const [campaignNameError, setCampaignNameError] = useState<string | null>(
     null
   );
+  const [image, setImage] = useState<string | null>(null);
+
   const [websiteError, setWebsiteError] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
-  const [image, setImage] = useState<string | null>(null);
-  const [imageData, setImageData] = useState<any>(null);
 
   const dispatch = useDispatch();
   const toast = useToast();
 
   const submitHandel = async () => {
-    let isError = false;
+    let isCampaignError = false;
+    let isWebsiteError = false;
+    let isMediaError = false;
 
     // campaig validation
     if (campaignNameValue === "") {
-      isError = true;
+      isCampaignError = true;
       setCampaignNameError("Campaign name can't be blank");
     } else {
-      isError = false;
+      isCampaignError = false;
       setCampaignNameError(null);
     }
 
     // website validation
     if (websiteValue === "") {
-      isError = true;
+      isWebsiteError = true;
       setWebsiteError("Website url can't be blank");
     } else if (
-      !/((?:(?:http?|ftp)[s]*:\/\/)?[a-z0-9-%\/\&=?\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?)/gi.test(
+      !/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
         websiteValue
       )
     ) {
-      isError = false;
+      isWebsiteError = true;
       setWebsiteError("Invalid website url");
     } else {
-      isError = false;
+      isWebsiteError = false;
       setWebsiteError(null);
     }
 
     // image validation
-    if (!image && !imageData) {
-      isError = true;
+    if (!image) {
+      isMediaError = true;
       setImageError("Image can't be blank");
     } else {
-      isError = false;
+      isMediaError = false;
       setImageError(null);
     }
 
-    if (!isError) {
+    if (!isCampaignError && !isWebsiteError && !isMediaError) {
       // get the extension
       const ext = image?.substring(image.lastIndexOf(".") + 1);
 
@@ -87,6 +89,7 @@ const CampaignHook = ({ navigation }: ICampaignHook) => {
       setLoading(true);
 
       // post data
+
       await fetch(
         "https://www.optimizekwtestingserver.com/testdemo/public/creative",
         requestOptions
@@ -95,6 +98,11 @@ const CampaignHook = ({ navigation }: ICampaignHook) => {
         .then((result: any) => {
           setLoading(false);
           dispatch(setId({ id: result?.data?.id }));
+          setCampaignNameValue("");
+          setWebsiteValue("");
+          setImage("");
+
+          setLoading(false);
 
           // redirect details screen
           return navigation?.navigate("CampaignDetailsScreen");
@@ -123,7 +131,6 @@ const CampaignHook = ({ navigation }: ICampaignHook) => {
     websiteError,
     submitHandel,
     imageError,
-    setImageData,
   };
 };
 
